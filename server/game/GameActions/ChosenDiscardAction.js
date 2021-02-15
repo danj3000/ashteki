@@ -5,6 +5,10 @@ class ChosenDiscardAction extends PlayerAction {
         this.amount = 1;
     }
 
+    defaultTargets(context) {
+        return [context.player.opponent, context.player];
+    }
+
     setup() {
         super.setup();
         this.name = 'discard';
@@ -13,6 +17,9 @@ class ChosenDiscardAction extends PlayerAction {
     }
 
     canAffect(player, context) {
+        if (context && context.target && player !== context.target) {
+            return false;
+        }
         if (player.hand.length === 0 || this.amount === 0) {
             return false;
         }
